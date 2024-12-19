@@ -5,6 +5,9 @@ help:
 r:
 	docker compose up -d
 
+d:
+	docker compose down
+
 t:  ## Run tests
 	docker compose run --no-deps --rm api pytest --cov='app'
 
