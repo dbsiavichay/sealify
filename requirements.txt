@@ -1,6 +1,10 @@
 boto3==1.35.77
+cryptography==44.0.0
 environs==11.2.1
 fastapi==0.115.6
 mypy-boto3-dynamodb==1.35.74
+pyjks==20.0.0
 pytest==8.3.4
+python-multipart==0.0.20
+pytz==2024.2
 uvicorn==0.32.1

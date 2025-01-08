@@ -2,8 +2,14 @@
 help:
 	@grep -E '^[A-Za-z0-9_.-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "[36m%-30s[0m %s\n", $$1, $$2}'
 
-r:
+build:  ## Build the docker image
+	docker compose build
+
+start:
 	docker compose up -d
+
+start-dev:
+	docker compose up -d && docker rm -f api && docker compose run --rm -p 3000:3000 api
 
 d:
 	docker compose down
@@ -11,8 +17,8 @@ d:
 t:  ## Run tests
 	docker compose run --no-deps --rm api pytest --cov='app'
 
-lint:  ## Fix linter errors
-	docker compose run --rm api sh -c "black . && isort . --profile black && flake8 ."
+lint-fix:  ## Fix linter errors
+	black . && isort . --profile black && flake8 .	
 
 lint-check:  ## Run linter
 	docker-compose run --no-deps --rm api black . --check

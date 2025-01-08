@@ -27,6 +27,12 @@ class BaseConfig:
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES = env.int("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", 30)
 
     #
+    # Keytool command
+    #
+
+    KEYTOOL_COMMAND = env("KEYTOOL_COMMAND", "")
+
+    #
     # Admins
     #
 
