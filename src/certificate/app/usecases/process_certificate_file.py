@@ -74,7 +74,7 @@ class ProcessCertificateFileUseCase(UseCase):
             **{
                 "id": uuid4(),
                 "subject_name": subject[0].value,
-                "serial_number": cert_x509.serial_number,
+                "serial_number": str(cert_x509.serial_number),
                 "issue_date": cert_x509.not_valid_before_utc,
                 "expiry_date": cert_x509.not_valid_after_utc,
                 "cert": cert,

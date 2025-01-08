@@ -9,5 +9,9 @@ class CertificateRepository(ABC):
         pass
 
     @abstractmethod
-    def exists_serial_number(self, serial_number: str) -> bool:
+    def find_by_serial_number(self, serial_number: int) -> Certificate:
+        pass
+
+    @abstractmethod
+    def save(self, certificate: Certificate) -> Certificate:
         pass

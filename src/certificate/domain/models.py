@@ -7,7 +7,7 @@ class Certificate:
         self,
         id: uuid.UUID,
         subject_name: str,
-        serial_number: int,
+        serial_number: str,
         issue_date: datetime,
         expiry_date: datetime,
         cert: str,
@@ -50,3 +50,14 @@ class Certificate:
                 self.key,
             )
         )
+
+    def dict(self):
+        return {
+            "id": str(self.id),
+            "subject_name": self.subject_name,
+            "serial_number": self.serial_number,
+            "issue_date": self.issue_date.isoformat(),
+            "expiry_date": self.expiry_date.isoformat(),
+            "cert": self.cert,
+            "key": self.key,
+        }

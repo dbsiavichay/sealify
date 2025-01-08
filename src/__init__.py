@@ -3,7 +3,9 @@ import boto3
 from .certificate.app.services import CertificateService
 from .certificate.app.usecases import ProcessCertificateFileUseCase
 from .certificate.infra.controllers import CertificateController
+from .certificate.infra.repositories import CertificateRepositoryDynamoDB
 from .config import config
+from .core.infra.aws_clients import AWSDynamoDBClient
 
 dynamodb = boto3.resource(
     "dynamodb",
@@ -14,13 +16,21 @@ dynamodb = boto3.resource(
 )
 
 # Tables
-user_table = dynamodb.Table("users")
+certificate_table = dynamodb.Table("certificates")
+
+# AWS DynamoDB Clients
+certificate_client = AWSDynamoDBClient(certificate_table)
+
+# Repositories
+certificate_repository = CertificateRepositoryDynamoDB(certificate_client)
 
 # Usecases
 process_certificate_file_usecase = ProcessCertificateFileUseCase()
 
 # Services
-certificate_service = CertificateService(process_certificate_file_usecase)
+certificate_service = CertificateService(
+    certificate_repository, process_certificate_file_usecase
+)
 
 # Controllers
 certificate_controller = CertificateController(certificate_service)

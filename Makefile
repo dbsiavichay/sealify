@@ -8,13 +8,13 @@ build:  ## Build the docker image
 start:
 	docker compose up -d
 
-start-dev:
+start-dev: 
 	docker compose up -d && docker rm -f api && docker compose run --rm -p 3000:3000 api
 
-d:
+down:  ## Stop the docker containers
 	docker compose down
 
-t:  ## Run tests
+tests:  ## Run tests
 	docker compose run --no-deps --rm api pytest --cov='app'
 
 lint-fix:  ## Fix linter errors
