@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from src.certificate.infra.routers import router as certificate_router
+from src.core.infra.middlewares import ErrorHandlingMiddleware
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(name)s  - %(message)s")
 
@@ -19,6 +20,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(ErrorHandlingMiddleware)
 
 app.include_router(certificate_router, prefix="/api/certificates")
 

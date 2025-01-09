@@ -12,7 +12,7 @@ from cryptography.x509.oid import NameOID
 
 from src.certificate.app.exceptions import (
     CertificateInvalidKeysException,
-    InvalidCertificateException,
+    InvalidPasswordOrCertificateException,
     UnprocessableCertificateException,
 )
 from src.certificate.domain.models import Certificate
@@ -27,8 +27,7 @@ class ProcessCertificateFileUseCase(UseCase):
         try:
             pkcs12.load_pkcs12(cert_bytes, password.encode())
         except ValueError as e:
-            logger.exception("PROCESS_CERTIFICATE_FILE :: ERROR :: %s", e)
-            raise InvalidCertificateException()
+            raise InvalidPasswordOrCertificateException(str(e))
 
         p12_file = NamedTemporaryFile(suffix=".p12")
 
@@ -45,13 +44,11 @@ class ProcessCertificateFileUseCase(UseCase):
             )
             logger.info("PROCESS_CERTIFICATE_FILE :: SUCCESS :: %s", output)
         except subprocess.CalledProcessError as e:
-            logger.exception(
-                "PROCESS_CERTIFICATE_FILE :: ERROR :: COMMAND %s :: RETURN_CODE %s :: %s",  # NOQA :E501
-                command,
-                e.returncode,
-                e.output,
+            raise UnprocessableCertificateException(
+                "COMMAND {0} :: RETURN_CODE {1} :: OUTPUT {2}".format(
+                    command, e.returncode, e.output
+                )
             )
-            raise UnprocessableCertificateException()
 
         ks = jks.KeyStore.load(keystore_name, password)
         keys = [k for k in ks.private_keys.values() if "signing key" in k.alias]
