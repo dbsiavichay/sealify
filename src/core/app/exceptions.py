@@ -6,3 +6,11 @@ class BaseException(Exception):
 
     def __str__(self):
         return self.message
+
+
+class DynamoDBException(BaseException):
+    status_code = 500
+    message = "Internal Server Error"
+
+    def __init__(self, detail: str):
+        super().__init__(self.status_code, self.message, detail)
