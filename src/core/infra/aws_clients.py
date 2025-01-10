@@ -1,9 +1,7 @@
-import logging
-
 from botocore.exceptions import ClientError
 from mypy_boto3_dynamodb.service_resource import Table
 
-logger = logging.getLogger(__name__)
+from src.core.app.exceptions import DynamoDBException
 
 
 class AWSDynamoDBClient:
@@ -14,15 +12,13 @@ class AWSDynamoDBClient:
         try:
             return self.table.put_item(Item=item)
         except ClientError as e:
-            logger.exception(e.response["Error"]["Message"])
-            raise
+            raise DynamoDBException(f"PUT_ITEM: {e.response['Error']['Message']}")
 
     def get_item(self, key):
         try:
             return self.table.get_item(Key=key)
         except ClientError as e:
-            logger.exception(e.response["Error"]["Message"])
-            raise
+            raise DynamoDBException(f"GET_ITEM: {e.response['Error']['Message']}")
 
     def query(self, key, index_name=None):
         try:
@@ -35,18 +31,14 @@ class AWSDynamoDBClient:
 
             key_condition_expression = f"{attribute_name} = :value"
             expression_attribute_values = {":value": attribute_value}
-
-            # Ejecutar la consulta
             response = self.table.query(
                 KeyConditionExpression=key_condition_expression,
                 IndexName=index_name,
                 ExpressionAttributeValues=expression_attribute_values,
             )
             return response
-
         except ClientError as e:
-            logger.exception(e.response["Error"]["Message"])
-            raise
+            raise DynamoDBException(f"QUERY: {e.response['Error']['Message']}")
 
     def update_item(self, key, update_values):
         update_expression = "SET " + ", ".join(
@@ -65,13 +57,11 @@ class AWSDynamoDBClient:
             )
             return response
         except ClientError as e:
-            logger.exception(e.response["Error"]["Message"])
-            raise
+            raise DynamoDBException(f"UPDATE_ITEM: {e.response['Error']['Message']}")
 
     def delete_item(self, key):
         try:
             response = self.table.delete_item(Key=key)
             return response
         except ClientError as e:
-            logger.exception(e.response["Error"]["Message"])
-            raise
+            raise DynamoDBException(f"DELETE_ITEM: {e.response['Error']['Message']}")
