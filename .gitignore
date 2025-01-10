@@ -1,8 +1,7 @@
-.env
-.idea
-.DS_Store
+*~
+*.py[cod]
+.*
+!.gitignore
+!.dockerignore
+!.github/
 __pycache__/
-venv
-.volumes
-.coverage
-.venv
