@@ -16,6 +16,12 @@ class BaseConfig:
     AWS_ENDPOINT_URL = env("AWS_ENDPOINT_URL", "http://localstack:4566")
 
     #
+    # Timezone
+    #
+
+    DEFAULT_TIMEZONE = env("DEFAULT_TIMEZONE", "America/Guayaquil")
+
+    #
     # JWT config
     #
 

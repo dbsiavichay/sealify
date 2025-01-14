@@ -10,8 +10,8 @@ class CertificateRepositoryDynamoDB(CertificateRepository):
         self.db_client = db_client
 
     def find_by_id(self, id: uuid.UUID) -> Certificate:
-        item = self.db_client.get_item({"id": str(id)})
-        return Certificate(**item)
+        response = self.db_client.get_item({"id": str(id)})
+        return Certificate(**response.get("Item")) if response.get("Item") else None
 
     def find_by_serial_number(self, serial_number: int) -> Certificate:
         response = self.db_client.query(
