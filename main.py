@@ -6,8 +6,9 @@ from fastapi.responses import RedirectResponse
 
 from src.certificate.infra.routers import router as certificate_router
 from src.core.infra.middlewares import ErrorHandlingMiddleware
+from src.sealer.infra.routers import router as sealer_router
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(name)s  - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(name)s - %(message)s")
 
 origins = ["http://localhost:3000"]
 
@@ -23,6 +24,7 @@ app.add_middleware(
 app.add_middleware(ErrorHandlingMiddleware)
 
 app.include_router(certificate_router, prefix="/api/certificates")
+app.include_router(sealer_router, prefix="/api/certificates")
 
 
 @app.get("/")

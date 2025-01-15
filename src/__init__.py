@@ -6,6 +6,9 @@ from .certificate.infra.controllers import CertificateController
 from .certificate.infra.repositories import CertificateRepositoryDynamoDB
 from .config import config
 from .core.infra.aws_clients import AWSDynamoDBClient
+from .sealer.app.services import SealerService
+from .sealer.app.usecases import SealerXMLUseCase
+from .sealer.infra.controllers import SealerController
 
 dynamodb = boto3.resource(
     "dynamodb",
@@ -26,11 +29,14 @@ certificate_repository = CertificateRepositoryDynamoDB(certificate_client)
 
 # Usecases
 process_certificate_file_usecase = ProcessCertificateFileUseCase()
+seal_xml_usecase = SealerXMLUseCase()
 
 # Services
 certificate_service = CertificateService(
     certificate_repository, process_certificate_file_usecase
 )
+sealer_service = SealerService(certificate_repository, seal_xml_usecase)
 
 # Controllers
 certificate_controller = CertificateController(certificate_service)
+sealer_controller = SealerController(sealer_service)
