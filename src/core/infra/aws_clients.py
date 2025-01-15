@@ -65,3 +65,9 @@ class AWSDynamoDBClient:
             return response
         except ClientError as e:
             raise DynamoDBException(f"DELETE_ITEM: {e.response['Error']['Message']}")
+
+    def scan_items(self):
+        try:
+            return self.table.scan()
+        except ClientError as e:
+            raise DynamoDBException(f"SCAN_ITEMS: {e.response['Error']['Message']}")

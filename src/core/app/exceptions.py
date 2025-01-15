@@ -14,3 +14,11 @@ class DynamoDBException(BaseException):
 
     def __init__(self, detail: str):
         super().__init__(self.status_code, self.message, detail)
+
+
+class ResourceNotFoundException(BaseException):
+    status_code = 404
+    message = "Resource not found"
+
+    def __init__(self, detail: str):
+        super().__init__(self.status_code, self.message, detail)

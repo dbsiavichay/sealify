@@ -1,9 +1,18 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from .models import Certificate
 
 
 class CertificateRepository(ABC):
+    @abstractmethod
+    def save(self, certificate: Certificate) -> Certificate:
+        pass
+
+    @abstractmethod
+    def list(self) -> List[Certificate]:
+        pass
+
     @abstractmethod
     def find_by_id(self, id: int) -> Certificate:
         pass
@@ -13,5 +22,5 @@ class CertificateRepository(ABC):
         pass
 
     @abstractmethod
-    def save(self, certificate: Certificate) -> Certificate:
+    def delete(self, id: str) -> None:
         pass

@@ -15,3 +15,12 @@ class CertificateController:
         certificate_bytes = await certificate.read()
 
         return self.service.create(certificate_bytes, password)
+
+    async def list(self):
+        return self.service.list()
+
+    async def retrieve(self, id: str):
+        return self.service.retrieve(id)
+
+    async def delete(self, id: str):
+        return self.service.delete(id)
