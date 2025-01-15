@@ -1,3 +1,5 @@
+from typing import List
+
 from src.certificate.domain.models import Certificate
 from src.certificate.domain.repositories import CertificateRepository
 from src.core.domain.usecases import UseCase
@@ -21,3 +23,13 @@ class CertificateService:
 
         self.repository.save(certificate)
         return certificate
+
+    def list(self) -> List[Certificate]:
+        return self.repository.list()
+
+    def retrieve(self, id: str) -> Certificate:
+        return self.repository.find_by_id(id)
+
+    def delete(self, id: str):
+        self.repository.delete(id)
+        return {"message": "Certificate deleted successfully"}
