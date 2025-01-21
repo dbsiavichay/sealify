@@ -1,11 +1,8 @@
-import uuid
-
 from pydantic import BaseModel, Field
 
 
 class SealInvoiceSchema(BaseModel):
-    certificate_id: uuid.UUID = Field(alias="certificateID")
-    invoice_xml: str = Field(alias="invoiceXML")
+    invoice_xml: str = Field(alias="invoiceXML", description="Invoice as xml format")
 
 
 class SealedResponseSchema(BaseModel):
