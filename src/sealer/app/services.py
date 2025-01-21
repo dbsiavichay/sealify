@@ -12,11 +12,11 @@ class SealerService:
         self.certificate_repository = certificate_repository
         self.usecase_xml = usecase_xml
 
-    def retrieve_certificate(self, certificate_id) -> Tuple[str, str]:
+    def retrieve_certificate(self, certificate_id: str) -> Tuple[str, str]:
         certificate = self.certificate_repository.find_by_id(certificate_id)
         return certificate.cert, certificate.key
 
-    def seal(self, input: SealInvoiceSchema) -> str:
-        cert, key = self.retrieve_certificate(input.certificate_id)
+    def seal_invoice(self, certificate_id: str, input: SealInvoiceSchema) -> str:
+        cert, key = self.retrieve_certificate(certificate_id)
 
         return self.usecase_xml.execute(cert, key, input.invoice_xml)

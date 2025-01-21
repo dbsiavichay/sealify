@@ -6,6 +6,6 @@ from src.sealer.app.schemas import SealedResponseSchema, SealInvoiceSchema
 router = APIRouter()
 
 
-@router.post("/seal-invoice", response_model=SealedResponseSchema)
-async def seal_invoice(input: SealInvoiceSchema):
-    return await sealer_controller.seal(input)
+@router.post("/{id}/seal-invoice", response_model=SealedResponseSchema)
+async def seal_invoice(id: str, input: SealInvoiceSchema):
+    return await sealer_controller.seal_invoice(id, input)
