@@ -1,10 +1,12 @@
 import boto3
+from cryptography.fernet import Fernet
 
 from .certificate.app.services import CertificateService
 from .certificate.app.usecases import ProcessCertificateFileUseCase
 from .certificate.infra.controllers import CertificateController
 from .certificate.infra.repositories import CertificateRepositoryDynamoDB
 from .config import config
+from .core.app.utils import CipherUtil
 from .core.infra.aws_clients import AWSDynamoDBClient
 from .sealer.app.services import SealerService
 from .sealer.app.usecases import SealerXMLUseCase
@@ -18,6 +20,10 @@ dynamodb = boto3.resource(
     endpoint_url=config.AWS_ENDPOINT_URL,
 )
 
+# Cipher
+fernet_cipher = Fernet(config.FERNET_KEY.encode("utf-8"))
+cipher_util = CipherUtil(fernet_cipher)
+
 # Tables
 certificate_table = dynamodb.Table("certificates")
 
@@ -25,7 +31,7 @@ certificate_table = dynamodb.Table("certificates")
 certificate_client = AWSDynamoDBClient(certificate_table)
 
 # Repositories
-certificate_repository = CertificateRepositoryDynamoDB(certificate_client)
+certificate_repository = CertificateRepositoryDynamoDB(certificate_client, cipher_util)
 
 # Usecases
 process_certificate_file_usecase = ProcessCertificateFileUseCase()

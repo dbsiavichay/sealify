@@ -39,6 +39,12 @@ class BaseConfig:
     KEYTOOL_COMMAND = env("KEYTOOL_COMMAND", "")
 
     #
+    # Fernet
+    #
+
+    FERNET_KEY = env("FERNET_KEY", "gMt0dT-y1KKIb3hRYAKUlaKIL8vPm_75YMXrTu6Ovxg=")
+
+    #
     # Admins
     #
 
