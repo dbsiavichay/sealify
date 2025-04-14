@@ -11,24 +11,8 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - sealify
-
-  localstack:
-    container_name: "aws-local"
-    image: localstack/localstack
-    env_file:
-      - .env
-    ports:
-      - "4566:4566"
-    environment:
-      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
-      - DEBUG=1
-    volumes:
-      - "$PWD/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
-      - "${LOCALSTACK_VOLUME_DIR:-./.docker/.volumes/aws}:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    networks:
-      - sealify
+      - faclab_network
 
 networks:
-  sealify:
+  faclab_network:
+    external: true

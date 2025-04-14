@@ -2,13 +2,16 @@ FROM python:3.11-slim-buster
 
 WORKDIR /src
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    git \
-    build-essential \
-    cargo \
-    default-jre-headless && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+        git \
+        build-essential \
+        cargo \
+        default-jre-headless && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+RUN python -m pip install --no-cache-dir --upgrade pip
 
 COPY requirements.txt .
 COPY requirements_dev.txt .

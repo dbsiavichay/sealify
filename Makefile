@@ -8,7 +8,7 @@ build:  ## Build the docker image
 start:
 	docker compose up -d
 
-start-dev: 
+dev: 
 	docker compose up -d && docker rm -f api && docker compose run --rm -p 3000:3000 api
 
 down:  ## Stop the docker containers

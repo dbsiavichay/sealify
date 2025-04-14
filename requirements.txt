@@ -4,8 +4,13 @@ environs==11.2.1
 fastapi==0.115.6
 mypy-boto3-dynamodb==1.35.74
 lxml==5.3.0
+opentelemetry-api==1.32.0
+opentelemetry-sdk==1.32.0
+opentelemetry-exporter-otlp==1.32.0
+opentelemetry-instrumentation-fastapi==0.53b0
 pyjks==20.0.0
 pytest==8.3.4
 python-multipart==0.0.20
 pytz==2024.2
+structlog==25.2.0
 uvicorn==0.32.1

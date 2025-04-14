@@ -1,10 +1,34 @@
+from dataclasses import dataclass
+
 from environs import Env
 
 env = Env()
 
 
+@dataclass
+class OpenTelemetryConfig:
+    service_name: str
+    otlp_endpoint: str
+    environment: str
+
+
 class BaseConfig:
+    SERVICE_NAME = env("SERVICE_NAME", "sealify")
     ENVIRONMENT = env("ENVIRONMENT", "local")
+
+    #
+    # Logging config
+    #
+    LOG_LEVEL = env("LOG_LEVEL", "INFO")
+    LOG_FORMAT = env(
+        "LOG_FORMAT",
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
+
+    #
+    # OpenTelemetry config
+    #
+    OTEL_OTLP_ENDPOINT = env("OTEL_OTLP_ENDPOINT", "http://localhost:4317")
 
     #
     # AWS config
@@ -49,3 +73,10 @@ class BaseConfig:
     #
 
     ADMINS = ["a@example.com", "b@example.com", "c@example.com", "d@example.com"]
+
+    def get_otel_config(self) -> OpenTelemetryConfig:
+        return OpenTelemetryConfig(
+            service_name=self.SERVICE_NAME,
+            otlp_endpoint=self.OTEL_OTLP_ENDPOINT,
+            environment=self.ENVIRONMENT,
+        )
