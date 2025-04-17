@@ -16,6 +16,11 @@ class ErrorHandlingMiddleware(BaseHTTPMiddleware):
             response = await call_next(request)
             return response
         except StarletteHTTPException as exc:
+            logger.exception(
+                "STARLETTE_ERROR :: %s :: %s",
+                exc.__class__.__name__,
+                {"message": exc.message, "detail": exc.detail},
+            )
             return JSONResponse(
                 status_code=exc.status_code,
                 content={"error": exc.detail},

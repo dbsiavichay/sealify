@@ -1,5 +1,5 @@
-from .base import BaseConfig
+from .base import BaseConfig, env
 
 
 class Config(BaseConfig):
-    pass
+    LOG_LEVEL = env("LOG_LEVEL", "DEBUG")

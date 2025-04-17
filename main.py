@@ -5,14 +5,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from src.certificate.infra.routers import router as certificate_router
+from src.config import config
+from src.core.infra.adapters import OpenTelemetry
 from src.core.infra.middlewares import ErrorHandlingMiddleware
 from src.sealer.infra.routers import router as sealer_router
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(name)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(message)s")
+
+telemetry = OpenTelemetry()
 
 origins = ["http://localhost:3000"]
 
 app = FastAPI()
+telemetry.instrument(app, config=config.get_otel_config())
+
 
 app.add_middleware(
     CORSMiddleware,
